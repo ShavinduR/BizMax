@@ -1,0 +1,259 @@
+:root {
+    --primary: #0f172a;
+    --accent: #f97316;
+    --accent-hover: #ea580c;
+    --text-dark: #1e293b;
+    --text-gray: #64748b;
+    --white: #ffffff;
+    --light-bg: #f8fafc;
+    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
+body { background: var(--white); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
+
+/* --- NAVBAR --- */
+.navbar {
+    background: rgba(255, 255, 255, 0.98); padding: 1rem 5%;
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-img { height: 45px; width: auto; }
+.logo-text { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+.logo-text span { color: var(--accent); }
+
+.nav-links { display: flex; gap: 3rem; margin-left: auto; }
+.nav-links a { color: var(--text-dark); font-weight: 600; font-size: 1rem; position: relative; }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+.menu-btn { display: none !important; } /* Desktop Hidden */
+
+/* --- HERO SECTION --- */
+.hero-section {
+    position: relative; height: 90vh; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--primary); overflow: hidden;
+}
+.hero-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+    transition: background-image 1s ease-in-out; opacity: 0.4; z-index: 0;
+}
+.hero-content { position: relative; z-index: 2; color: var(--white); text-align: center; max-width: 800px; padding: 0 1rem; }
+.hero-title { font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
+.hero-desc { font-size: 1.2rem; margin-bottom: 2.5rem; color: #cbd5e1; }
+.slide-in-right { animation: slideIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+
+.btn-primary { background: var(--accent); color: white; padding: 1rem 2.5rem; border-radius: 5px; font-weight: 600; display: inline-block; }
+.btn-outline { border: 2px solid white; color: white; padding: 1rem 2.5rem; border-radius: 5px; font-weight: 600; display: inline-block; }
+.btn-group { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; }
+
+/* --- SECTION GENERAL --- */
+.section { padding: 6rem 5%; }
+.section-title { text-align: center; margin-bottom: 4rem; }
+.section-title h2 { font-size: 2.5rem; color: var(--primary); font-weight: 700; }
+.line { width: 80px; height: 4px; background: var(--accent); margin: 0.5rem auto 1.5rem; border-radius: 2px; }
+
+/* --- PROCESS --- */
+.timeline { display: flex; justify-content: space-between; position: relative; margin-top: 3rem; }
+.timeline::before {
+    content: ''; position: absolute; top: 40px; left: 50px; right: 50px; height: 3px;
+    background-image: linear-gradient(to right, var(--accent) 50%, transparent 50%);
+    background-size: 20px 100%; z-index: 0;
+}
+.step { flex: 1; text-align: center; padding: 0 1rem; position: relative; z-index: 1; }
+.step-icon {
+    width: 80px; height: 80px; background: var(--white); border: 3px solid var(--accent); color: var(--accent);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;
+    font-size: 2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s;
+}
+.step:hover .step-icon { background: var(--accent); color: white; transform: scale(1.1); }
+
+/* --- SUCCESS STORIES --- */
+.bg-light { background: var(--light-bg); }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+.project-card {
+    background: var(--white); border-radius: 15px; overflow: hidden;
+    box-shadow: var(--shadow); transition: 0.4s; position: relative; border-bottom: 4px solid transparent;
+}
+.project-card:hover { transform: translateY(-10px); border-bottom: 4px solid var(--accent); }
+.project-img { height: 220px; overflow: hidden; }
+.project-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+.project-card:hover .project-img img { transform: scale(1.1); }
+.project-info { padding: 2rem; }
+.badge { background: #eff6ff; color: var(--primary); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: inline-block; margin-bottom: 1rem; }
+.visit-btn { display: inline-block; margin-top: 1.5rem; padding: 0.5rem 1rem; background: var(--primary); color: white; border-radius: 5px; font-size: 0.9rem; }
+.visit-btn:hover { background: var(--accent); }
+
+/* --- TESTIMONIALS --- */
+.testimonial-wrapper { overflow: hidden; white-space: nowrap; padding: 2rem 0; }
+.testimonial-track { display: inline-flex; animation: scroll 40s linear infinite; gap: 2rem; }
+.testimonial-wrapper:hover .testimonial-track { animation-play-state: paused; }
+.testi-card-small {
+    background: var(--white); width: 350px; padding: 2rem; border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; white-space: normal; display: inline-block;
+}
+@keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* --- FOOTER (FINAL FIXED) --- */
+footer { background: var(--primary); color: #cbd5e1; padding: 4rem 5% 2rem; }
+
+.footer-split-container {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 4rem; max-width: 1200px; margin: 0 auto; padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-left-content { flex: 1; max-width: 450px; }
+.footer-logo-text { font-size: 2rem; font-weight: 800; color: var(--white); margin-bottom: 1rem; }
+.footer-logo-text span { color: var(--accent); }
+.footer-desc { margin-bottom: 2rem; line-height: 1.6; color: #94a3b8; }
+.contact-list p { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; color: #cbd5e1; }
+.social-icons-left { display: flex; gap: 1rem; margin-top: 2rem; }
+.social-icons-left a {
+    width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; color: white;
+}
+
+/* Right Side Form */
+.footer-right-form {
+    flex: 1.2; background: var(--white); padding: 2.5rem;
+    border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* Header inside form (Logo + Text) */
+.form-header-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.form-logo { height: 50px; width: auto; }
+.form-header-text h3 { color: var(--primary); font-size: 1.3rem; font-weight: 700; margin-bottom: 2px; }
+.form-header-text p { color: #64748b; font-size: 0.85rem; }
+
+/* Side by Side Inputs */
+.form-row-inputs { display: flex; gap: 1rem; margin-bottom: 1rem; }
+.form-group { width: 100%; margin-bottom: 0; }
+
+/* Inputs & Select Dropdown Styling */
+.form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 1rem; border: 2px solid #f1f5f9; border-radius: 12px;
+    background: #f8fafc; font-family: 'Poppins', sans-serif; font-size: 0.95rem; outline: none; transition: 0.3s;
+    color: var(--primary);
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent); background: white; }
+
+/* Customizing the Select Arrow (Optional) */
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.form-group button {
+    width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--accent) 0%, #ea580c 100%);
+    color: white; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; transition: 0.3s; margin-top: 1rem;
+}
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 900px) {
+    .menu-btn { display: block !important; font-size: 1.8rem; cursor: pointer; color: var(--primary); }
+    .nav-links {
+        display: none; position: absolute; top: 100%; left: 0; width: 100%;
+        background: var(--white); flex-direction: column; padding: 2rem; text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .nav-links.active { display: flex; }
+    .hero-title { font-size: 2.5rem; }
+    .footer-split-container { flex-direction: column-reverse; gap: 3rem; }
+    .form-header-row { flex-direction: column; text-align: center; }
+    .form-row-inputs { flex-direction: column; gap: 1rem; }
+    .timeline { flex-direction: column; gap: 0; }
+    .timeline::before { width: 3px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+}
+
+.float-wa { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.4); z-index: 1000; }
+
+/* =========================================
+   PRICING PAGE SPECIFIC STYLES
+   ========================================= */
+
+/* Pricing Grid Layout */
+.pricing-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem; margin-bottom: 5rem; align-items: center;
+}
+
+.price-card {
+    background: var(--white); border-radius: 20px; padding: 2.5rem; text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #f1f5f9; position: relative; transition: 0.3s;
+}
+.price-card:hover { transform: translateY(-10px); }
+
+/* Featured Card (Middle One) */
+.price-card.featured {
+    background: #0f172a; color: white; border: 2px solid var(--accent);
+    transform: scale(1.05); z-index: 2; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+.price-card.featured h3 { color: white; }
+.price-card.featured:hover { transform: scale(1.08); }
+
+.amount { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 0.5rem 0; }
+.amount span { font-size: 1rem; font-weight: 400; color: #64748b; }
+
+.features-list { list-style: none; margin-top: 1.5rem; text-align: left; }
+.features-list li { margin-bottom: 0.8rem; color: #475569; display: flex; align-items: flex-start; gap: 10px; font-size: 0.95rem; }
+.features-list li i { color: var(--accent); margin-top: 5px; }
+
+/* Menu Tables */
+.menu-category { margin-bottom: 3rem; }
+.menu-category h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); display: flex; align-items: center; }
+
+.menu-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.menu-table td { padding: 1rem; border-bottom: 1px solid #f1f5f9; color: var(--text-dark); }
+.menu-table .price-col { text-align: right; font-weight: 700; color: var(--accent); width: 120px; }
+.menu-table tr:last-child td { border-bottom: none; }
+
+/* --- THE FOOTER CHIPS (Tick Selection) --- */
+.chip-container {
+    display: flex; flex-wrap: wrap; gap: 0.8rem;
+}
+
+.service-chip {
+    cursor: pointer; user-select: none;
+}
+
+/* Hide the actual checkbox */
+.service-chip input { display: none; }
+
+/* Style the Span (The visual button) */
+.service-chip span {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background: #f1f5f9;
+    color: var(--text-gray);
+    border-radius: 50px; /* Pill shape */
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: 0.3s ease;
+    border: 2px solid transparent;
+}
+
+/* Hover Effect */
+.service-chip span:hover { background: #e2e8f0; }
+
+/* SELECTED STATE (Magic Happens Here) */
+.service-chip input:checked + span {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 5px 15px rgba(249, 115, 22, 0.4);
+    transform: scale(1.05);
+}
+
+/* Mobile Fix for Chips */
+@media (max-width: 600px) {
+    .chip-container { justify-content: center; }
+}
