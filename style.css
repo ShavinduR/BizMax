@@ -230,7 +230,7 @@ footer { background: var(--primary); color: #cbd5e1; padding: 4rem 5% 2rem; }
         top: 0; 
         right: -100%; /* Hide completely to the right */
         width: 60%; /* Takes 70% of screen width */
-        max-width: 191px;
+        max-width: 150px;
         height: 100vh; /* Full Height */
         background: var(--white);
         flex-direction: column; 
@@ -263,3 +263,4 @@ footer { background: var(--primary); color: #cbd5e1; padding: 4rem 5% 2rem; }
     .timeline::before { width: 3px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
 
 }
+
