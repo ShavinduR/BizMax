@@ -238,7 +238,12 @@ h1, h2, h3, h4 { color: var(--navy-900); line-height: 1.2; }
 .work-card__media { aspect-ratio: 16 / 10; background: var(--navy-900); overflow: hidden; }
 .work-card__media img { width: 100%; height: 100%; object-fit: cover; }
 .work-card__body { display: flex; flex-direction: column; flex: 1; padding: 1.75rem; }
-.work-card__meta { font-size: 0.85rem; color: var(--slate-500); margin-bottom: 0.35rem; }
+.work-card__type { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-strong); margin-bottom: 0.35rem; }
+.work-card__facts { display: grid; gap: 0.3rem; margin-bottom: 1rem; font-size: 0.88rem; }
+.work-card__facts div { display: flex; gap: 0.4rem; }
+.work-card__facts dt { color: var(--slate-500); white-space: nowrap; }
+.work-card__facts dt::after { content: ':'; }
+.work-card__facts dd { color: var(--navy-900); font-weight: 600; }
 .work-card h3 { font-size: 1.2rem; margin-bottom: 0.9rem; }
 .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
 .tag { padding: 0.3rem 0.75rem; border-radius: 999px; background: var(--slate-100); color: var(--navy-800); font-size: 0.78rem; font-weight: 600; }
