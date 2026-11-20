@@ -1,144 +1,166 @@
-/* =========================================
-   1. MOBILE MENU (SLIDE-IN + CLICK OUTSIDE)
-   ========================================= */
-const navLinks = document.getElementById('navLinks');
-// Select the menu button using its class (since we changed it to an icon)
-const menuBtn = document.querySelector('.menu-btn');
+/* =========================================================
+   BizMax Solutions — Site Script
+   ========================================================= */
+(function () {
+    'use strict';
 
-// Function to toggle the menu open/close
-function toggleMenu() {
-    navLinks.classList.toggle('active');
-}
+    /** Single business WhatsApp number (international format, no "+"). */
+    const WHATSAPP_NUMBER = '94742327807';
 
-// Logic to close the menu when clicking outside of it
-document.addEventListener('click', function(event) {
-    // Check if the click is INSIDE the menu or ON the button
-    const isClickInsideMenu = navLinks.contains(event.target);
-    const isClickOnBtn = menuBtn.contains(event.target);
+    const buildWhatsAppUrl = (message) =>
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-    // If the menu is open AND the click is NOT inside menu AND NOT on button -> Close it
-    if (navLinks.classList.contains('active') && !isClickInsideMenu && !isClickOnBtn) {
-        navLinks.classList.remove('active');
-    }
-});
+    /* -----------------------------------------------------
+       1. Mobile navigation drawer
+       ----------------------------------------------------- */
+    const initMobileMenu = () => {
+        const toggle = document.querySelector('.menu-toggle');
+        const nav = document.getElementById('site-nav');
+        if (!toggle || !nav) return;
 
+        const backdrop = document.createElement('div');
+        backdrop.className = 'nav-backdrop';
+        document.body.appendChild(backdrop);
 
-/* =========================================
-   2. HERO SLIDER (SMOOTH ANIMATION - FIXED IMAGES)
-   ========================================= */
-const heroBg = document.getElementById('hero-bg');
-const heroTitle = document.getElementById('hero-title');
+        const setOpen = (open) => {
+            toggle.setAttribute('aria-expanded', String(open));
+            toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+            nav.classList.toggle('is-open', open);
+            backdrop.classList.toggle('is-visible', open);
+            document.body.classList.toggle('menu-open', open);
+        };
 
-// Only run this code if we are on the Home Page (elements exist)
-if (heroBg && heroTitle) {
-    const slides = [
-        {
-            image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
-            title: "We Don't Guess. <br><span style='color:#f97316'>We Analyze.</span>"
-        },
-        {
-            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
-            title: "Digital Growth. <br><span style='color:#f97316'>Simplified.</span>"
-        },
-        {
-            image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80",
-            title: "We work until you are <br><span style='color:#f97316'>100% Satisfied.</span><br><span style='font-size:1.5rem; color:white;'>No extra charges.</span>"
-        }
-    ];
-
-    let currentSlide = 0;
-
-    function changeHero() {
-        // Step 1: Fade Out TEXT Only
-        heroTitle.classList.add('fade-out');
-        // (අපි මෙතන තිබ්බ heroBg.style.opacity = '0.2'; පේළිය අයින් කළා)
-
-        // Step 2: Change Content after 0.8 seconds
-        setTimeout(() => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            
-            // Image changes smoothly thanks to CSS transition
-            heroBg.style.backgroundImage = `url('${slides[currentSlide].image}')`;
-            heroTitle.innerHTML = slides[currentSlide].title;
-            
-            // Step 3: Fade In TEXT Only
-            // (අපි මෙතන තිබ්බ heroBg.style.opacity = '0.4'; පේළිය අයින් කළා)
-            heroTitle.classList.remove('fade-out'); 
-            
-        }, 800); 
-    }
-
-    // Change slide every 6 seconds
-    setInterval(changeHero, 6000); 
-}
-
-
-/* =========================================
-   3. WHATSAPP FORM INTEGRATION
-   ========================================= */
-
-// ⚠️ වැදගත්: ඔයාගේ WhatsApp නම්බර් එක මෙතනට දාන්න (94...)
-const myNumber = "94700000000"; 
-
-
-// --- A. HOME PAGE FORM HANDLER ---
-const homeForm = document.getElementById('homeContactForm');
-if (homeForm) {
-    homeForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Stop page reload
-        
-        const name = document.getElementById('name').value;
-        const business = document.getElementById('businessName').value;
-        const service = document.getElementById('serviceSelection').value;
-
-        const msg = `Hi BizMax (Home), I am ${name}. \nBusiness: ${business}. \nSelected Service: ${service}`;
-        
-        // Open WhatsApp
-        window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(msg)}`, '_blank');
-    });
-}
-
-
-// --- B. SERVICES PAGE FORM HANDLER ---
-const servicesForm = document.getElementById('servicesContactForm');
-if (servicesForm) {
-    servicesForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const name = document.getElementById('serviceName').value;
-        const business = document.getElementById('serviceBusiness').value;
-        const userDescription = document.getElementById('serviceMessage').value;
-
-        const msg = `Hi BizMax (Services), I am ${name}. \nBusiness: ${business}. \nRequirement: ${userDescription}`;
-        
-        window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(msg)}`, '_blank');
-    });
-}
-
-
-// --- C. PRICING PAGE FORM HANDLER (Multi-Select) ---
-const pricingForm = document.getElementById('pricingContactForm');
-if (pricingForm) {
-    pricingForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const name = document.getElementById('pName').value;
-        const business = document.getElementById('pBusiness').value;
-        
-        // 1. Get all checked checkboxes (Chips)
-        const checkedBoxes = document.querySelectorAll('.service-chip input:checked');
-        
-        // 2. Collect values into an array
-        let selectedServices = [];
-        checkedBoxes.forEach((checkbox) => {
-            selectedServices.push(checkbox.value);
+        toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+        backdrop.addEventListener('click', () => setOpen(false));
+        nav.addEventListener('click', (event) => {
+            if (event.target.closest('a')) setOpen(false);
         });
-        
-        // 3. Create a string list
-        let servicesString = selectedServices.length > 0 ? selectedServices.join(', ') : "No specific services selected";
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && nav.classList.contains('is-open')) {
+                setOpen(false);
+                toggle.focus();
+            }
+        });
+        window.matchMedia('(min-width: 961px)').addEventListener('change', (mq) => {
+            if (mq.matches) setOpen(false);
+        });
+    };
 
-        const msg = `Hi BizMax (Custom Plan), I am ${name}. \nBusiness: ${business}. \n\nI want a quote for: \n👉 ${servicesString}`;
-        
-        window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+    /* -----------------------------------------------------
+       2. Pre-filled WhatsApp links
+       Any <a data-wa-message="..."> gets a full wa.me link.
+       The plain href stays as a no-JS fallback.
+       ----------------------------------------------------- */
+    const initWhatsAppLinks = () => {
+        document.querySelectorAll('a[data-wa-message]').forEach((link) => {
+            link.href = buildWhatsAppUrl(link.dataset.waMessage);
+        });
+    };
+
+    /* -----------------------------------------------------
+       3. Lead form → WhatsApp (with validation)
+       ----------------------------------------------------- */
+    const normaliseSriLankanPhone = (raw) => {
+        const digits = raw.replace(/[^\d+]/g, '');
+        if (/^\+94\d{9}$/.test(digits)) return digits;
+        if (/^94\d{9}$/.test(digits)) return `+${digits}`;
+        if (/^0\d{9}$/.test(digits)) return `+94${digits.slice(1)}`;
+        if (/^\+\d{8,15}$/.test(digits)) return digits; // other international numbers
+        return null;
+    };
+
+    const validators = {
+        name: (value) => (value.length >= 2 ? '' : 'Please enter your full name.'),
+        phone: (value) => {
+            if (!value) return 'Please enter your WhatsApp number.';
+            return normaliseSriLankanPhone(value) ? '' : 'Enter a valid number, e.g. 077 123 4567.';
+        },
+        business: (value) => (value.length >= 2 ? '' : 'Please enter your business or page name.'),
+        service: (value) => (value ? '' : 'Please choose a service.'),
+        budget: (value) => (value ? '' : 'Please choose a budget range.'),
+    };
+
+    const setFieldError = (field, message) => {
+        const errorEl = document.getElementById(`${field.id}-error`);
+        field.setAttribute('aria-invalid', message ? 'true' : 'false');
+        if (errorEl) errorEl.textContent = message;
+    };
+
+    const initLeadForm = () => {
+        const form = document.getElementById('leadForm');
+        if (!form) return;
+
+        const status = form.querySelector('.form-status');
+        const fields = Array.from(form.querySelectorAll('[data-validate]'));
+
+        const validateField = (field) => {
+            const value = field.value.trim();
+            const message = validators[field.dataset.validate](value);
+            setFieldError(field, message);
+            return message === '';
+        };
+
+        fields.forEach((field) => {
+            field.addEventListener('blur', () => validateField(field));
+            field.addEventListener('input', () => {
+                if (field.getAttribute('aria-invalid') === 'true') validateField(field);
+            });
+        });
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            status.textContent = '';
+
+            const invalid = fields.filter((field) => !validateField(field));
+            if (invalid.length) {
+                invalid[0].focus();
+                return;
+            }
+
+            const value = (name) => form.elements[name].value.trim();
+            const message = [
+                'Hi BizMax Solutions, I would like a free growth audit.',
+                '',
+                `Name: ${value('fullName')}`,
+                `WhatsApp: ${normaliseSriLankanPhone(value('phone'))}`,
+                `Business / Page: ${value('businessName')}`,
+                `Service needed: ${value('service')}`,
+                `Monthly budget: ${value('budget')}`,
+                `Sent from: ${document.title}`,
+            ].join('\n');
+
+            const url = buildWhatsAppUrl(message);
+            // Note: passing 'noopener' makes window.open return null, so detach manually.
+            const opened = window.open(url, '_blank');
+            if (opened) {
+                opened.opener = null;
+            } else {
+                window.location.href = url; // popup blocked → same-tab fallback
+            }
+
+            status.textContent = 'Opening WhatsApp… just press send and we will reply within 2 hours.';
+            form.reset();
+        });
+    };
+
+    /* -----------------------------------------------------
+       4. Pre-select a service in the lead form
+       Links like <a href="#contact" data-select-service="Web Development">
+       ----------------------------------------------------- */
+    const initServicePreselect = () => {
+        const select = document.getElementById('service');
+        if (!select) return;
+        document.querySelectorAll('[data-select-service]').forEach((link) => {
+            link.addEventListener('click', () => {
+                select.value = link.dataset.selectService;
+            });
+        });
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initMobileMenu();
+        initWhatsAppLinks();
+        initLeadForm();
+        initServicePreselect();
     });
-}
+})();
