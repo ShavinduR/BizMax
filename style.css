@@ -495,3 +495,4 @@ h1, h2, h3, h4 { color: var(--navy-900); line-height: 1.2; }
 /* ---------- 16. Utilities ---------- */
 .h3-size { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.6rem; }
 .grid--4 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.tag--accent { background: var(--accent-soft); color: var(--accent-strong); border: 1px solid rgba(194, 65, 12, 0.25); }
