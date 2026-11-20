@@ -58,26 +58,12 @@
     };
 
     /* -----------------------------------------------------
-       3. Lead form → WhatsApp (with validation)
+       3. Contact form → WhatsApp (with validation)
        ----------------------------------------------------- */
-    const normaliseSriLankanPhone = (raw) => {
-        const digits = raw.replace(/[^\d+]/g, '');
-        if (/^\+94\d{9}$/.test(digits)) return digits;
-        if (/^94\d{9}$/.test(digits)) return `+${digits}`;
-        if (/^0\d{9}$/.test(digits)) return `+94${digits.slice(1)}`;
-        if (/^\+\d{8,15}$/.test(digits)) return digits; // other international numbers
-        return null;
-    };
-
     const validators = {
         name: (value) => (value.length >= 2 ? '' : 'Please enter your full name.'),
-        phone: (value) => {
-            if (!value) return 'Please enter your WhatsApp number.';
-            return normaliseSriLankanPhone(value) ? '' : 'Enter a valid number, e.g. 077 123 4567.';
-        },
         business: (value) => (value.length >= 2 ? '' : 'Please enter your business or page name.'),
-        service: (value) => (value ? '' : 'Please choose a service.'),
-        budget: (value) => (value ? '' : 'Please choose a budget range.'),
+        service: (value) => (value ? '' : 'Please choose what you need.'),
     };
 
     const setFieldError = (field, message) => {
@@ -119,14 +105,11 @@
 
             const value = (name) => form.elements[name].value.trim();
             const message = [
-                'Hi BizMax Solutions, I would like a free growth audit.',
+                'Hi BizMax Solutions, I would like a free audit.',
                 '',
                 `Name: ${value('fullName')}`,
-                `WhatsApp: ${normaliseSriLankanPhone(value('phone'))}`,
                 `Business / Page: ${value('businessName')}`,
-                `Service needed: ${value('service')}`,
-                `Monthly budget: ${value('budget')}`,
-                `Sent from: ${document.title}`,
+                `Interested in: ${value('service')}`,
             ].join('\n');
 
             const url = buildWhatsAppUrl(message);
