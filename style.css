@@ -139,7 +139,7 @@ h1, h2, h3 { color: var(--navy-900); line-height: 1.2; }
 
 /* ---------- 8. Our work (image tiles) ---------- */
 .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem 2rem; }
-.work-tile img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius); background: var(--navy-900); }
+.work-tile img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius); background: var(--white); box-shadow: 0 0 0 1px var(--slate-200); }
 .work-tile__body { padding-top: 1rem; }
 .work-tile__kind { font-size: 0.82rem; color: var(--slate-500); }
 .work-tile h3 { font-size: 1.12rem; margin: 0.15rem 0 0.25rem; }
