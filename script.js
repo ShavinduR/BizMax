@@ -140,10 +140,53 @@
         });
     };
 
+    /* -----------------------------------------------------
+       5. Scroll reveal + number count-up
+       <dl data-reveal> ... <span data-count="6" data-from="0">6</span>
+       Final numbers are in the HTML, so nothing breaks without JS.
+       ----------------------------------------------------- */
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const countUp = (el) => {
+        const to = Number(el.dataset.count);
+        const from = Number(el.dataset.from || 0);
+        const duration = 1600;
+        const start = performance.now();
+        const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+        const tick = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            el.textContent = String(Math.round(from + (to - from) * easeOut(progress)));
+            if (progress < 1) requestAnimationFrame(tick);
+        };
+        el.textContent = String(from);
+        requestAnimationFrame(tick);
+    };
+
+    const initReveal = () => {
+        const groups = document.querySelectorAll('[data-reveal]');
+        if (!groups.length) return;
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+            groups.forEach((g) => g.classList.add('is-visible'));
+            return;
+        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                entry.target.querySelectorAll('[data-count]').forEach(countUp);
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.35 });
+        groups.forEach((g) => observer.observe(g));
+    };
+
+    document.documentElement.classList.add('js');
+
     document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();
         initWhatsAppLinks();
         initLeadForm();
         initServicePreselect();
+        initReveal();
     });
 })();
